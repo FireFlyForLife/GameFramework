@@ -337,3 +337,6 @@ OpenCover/
 *.exe
 *.out
 *.app
+
+#project specific ignores
+Lib/glew*/doc
