@@ -19,7 +19,7 @@ private:
 
 		auto operator[](unsigned int index_y) -> std::conditional_t<constant, const float&, float&>
 		{
-			return matrix.cells.at(x*height + index_y);
+			return matrix.cells.at(index_y * Width + x);
 		}
 	};
 
@@ -40,7 +40,7 @@ public:
 	{
 		auto list_height = init_list.size();
 		auto it = init_list.begin();
-		
+
 		auto list_width = (*it).size();
 #if defined(_DEBUG) && !defined(MATH_DISABLE_WARNINGS)
 		//TODO: Make this a runtime assert, maybe. test it.
@@ -62,7 +62,7 @@ public:
 			{
 				float f = *it_horizontal;
 
-				cells[vertical * height + horizontal] = f;
+				cells[vertical * Width + horizontal] = f;
 
 				horizontal++;
 			}
@@ -72,12 +72,12 @@ public:
 
 	float& operator()(unsigned int index_x, unsigned int index_y)
 	{
-		return cells[index_x * height + index_y];
+		return cells[index_x * Width + index_y];
 	}
 	
 	const float& operator()(unsigned int index_x, unsigned int index_y) const
 	{
-		return cells[index_x * height + index_y];
+		return cells[index_x * Width + index_y];
 	}
 
 	cell_proxy<false> operator[](unsigned int index_x)
@@ -124,20 +124,25 @@ public:
 
 	template<unsigned other_width, unsigned other_height, 
 		typename = std::enable_if_t<width == other_height>>
-		Matrix<std::min(other_width, width)> operator*(const Matrix<other_width, other_height>& b)
+		Matrix<height, other_width> operator*(const Matrix<other_width, other_height>& b)
 	{
-		constexpr unsigned w = std::min(other_width, width);
+		using ReturnMatrix = Matrix<height, other_width>;
 
-		Matrix<w, other_height> matrix;
-		for(int x = 0; x < w; x++)
+		auto& a = *this;
+
+		ReturnMatrix matrix;
+		for(int x = 0; x < ReturnMatrix::Width; x++)
 		{
-			for(int y = 0; y < other_height; y++)
+			for(int y = 0; y < ReturnMatrix::Height; y++)
 			{
-				matrix[x][y] = 
+				for(int i = 0; i < Width /*or other_height*/; i++)
+				{
+					matrix[x][y] += a[i][y] * b[x][i];
+				}
 			}
 		}
 
-		return {};
+		return matrix;
 	}
 
 	static const Matrix identity;
@@ -147,7 +152,7 @@ private:
 
 	std::array<float, total_cells> cells = {};
 
-	
+	//TODO: Write flatten and unflatten function for indexes for the cells
 };
 
 template<unsigned int width, unsigned int height>

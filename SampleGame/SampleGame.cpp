@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Shaders.h"
+#include "Input.h"
 #include <cassert>
 
 APPLICATION_ENTRY(SampleGame)

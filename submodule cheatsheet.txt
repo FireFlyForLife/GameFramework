@@ -1,4 +1,40 @@
-Populate the submodules:
+Submodule cheatsheet:
 
+add a submodule:
+git submodule add github.com/user/repo.git Lib/RepoName
 
-Update the submodules:
+actually download the submodule:
+git submodule init 
+git submodule update
+
+update a submodule which has been updated upstream:
+# get the submodule initially
+git submodule add ssh://bla submodule_dir
+git submodule init
+
+# time passes, submodule upstream is updated
+# and you now want to update
+
+# change to the submodule directory
+cd submodule_dir
+
+# checkout desired branch
+git checkout master
+
+# update
+git pull
+
+# get back to your project root
+cd ..
+
+# now the submodules are in the state you want, so
+git commit -am "Pulled down update to submodule_dir"
+
+Or, if you're a busy person:
+
+git submodule foreach git pull origin master
+#and then probably a git commit aswell
+
+===OR
+Git 1.8.2 features a new option --remote that will enable exactly this behavior. Running:
+git submodule update --remote --merge
