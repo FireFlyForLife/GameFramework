@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Matrix.h"
+#include "Vector.h"
 #include <fstream>
 
 namespace Math
@@ -25,9 +26,17 @@ namespace Math
 		return std::string("Unknown Type: ") + typeid(t).name() + ". Could not convert to std::string.";
 	}
 
+	template<>
+	inline std::string ToString(const Vector2& vec)
+	{
+		using namespace std::string_literals;
+		return "Vec2("s + std::to_string(vec.x) + ", " + std::to_string(vec.y) + ")";
+	}
+
 	template<unsigned width, unsigned height>
 	std::string ToString(const Matrix<width, height>& t)
 	{
+		//TODO: Add width calculation
 		std::string matrix;
 		for(unsigned y = 0; y < height; y++)
 		{

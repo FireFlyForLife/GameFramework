@@ -137,7 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ForceLibGeneration.cpp" />
-    <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

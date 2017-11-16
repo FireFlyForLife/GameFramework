@@ -20,8 +20,8 @@ namespace Math {
 	}
 
 	//Alias to Math::Clamp<float>
-	inline float Clampf(float val, float max, float min) {
-		return Clamp<float>(val, max, min);
+	inline float Clampf(float val, float min, float max) {
+		return Clamp<float>(val, min, max);
 	}
 	
 	inline bool fequals(float a, float b, float epsilon = std::numeric_limits<float>::epsilon())
