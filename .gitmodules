@@ -1,0 +1,7 @@
+[submodule "Lib/GSL"]
+	path = Lib/GSL
+	url = https://github.com/Microsoft/GSL.git
+
+[submodule "Lib/Concordia"]
+	path = Lib/Concordia
+	url = https://github.com/FireFlyForLife/Concordia.git
